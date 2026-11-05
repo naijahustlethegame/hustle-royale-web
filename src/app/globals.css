@@ -80,3 +80,76 @@ canvas,
     transition: none;
   }
 }
+
+/* ---- Starter pack ---- */
+
+/* Idle float uses the `translate` property so it never fights the JS-driven `transform` shake. */
+.pack-bob {
+  animation: pack-bob 2s steps(6) infinite;
+}
+@keyframes pack-bob {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -10px;
+  }
+}
+
+/* Pack swells, jitters, then vanishes while the server rolls the fighters. */
+@keyframes pack-burst {
+  0% {
+    transform: scale(1.14) rotate(0deg);
+    opacity: 1;
+  }
+  60% {
+    transform: scale(1.5) rotate(8deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.2) rotate(-6deg);
+    opacity: 0;
+  }
+}
+
+.pack-flash {
+  animation: pack-flash 900ms steps(9) forwards;
+}
+@keyframes pack-flash {
+  0%,
+  40% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.card-reveal {
+  opacity: 0;
+  animation: card-reveal 500ms steps(8) forwards;
+}
+@keyframes card-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(48px) scale(0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pack-bob,
+  .pack-flash {
+    animation: none;
+  }
+  .card-reveal {
+    animation-duration: 1ms;
+  }
+}

@@ -1,8 +1,24 @@
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
+import { StarterPackExperience } from "@/components/pack/StarterPackExperience";
 import { PixelPanel } from "@/components/pixel/PixelPanel";
 import { createClient } from "@/lib/supabase/server";
 
-export default async function HomePage() {
+/**
+ * With `cacheComponents` on, anything that reads the request (cookies -> Supabase session)
+ * must render inside a <Suspense> boundary, otherwise Next tries to prerender it and fails
+ * with "unstable value Date.now()" from the auth client. The static shell renders instantly
+ * and the player's data streams in.
+ */
+export default function HomePage() {
+  return (
+    <Suspense fallback={<HomeFallback />}>
+      <HomeContent />
+    </Suspense>
+  );
+}
+
+async function HomeContent() {
   const supabase = await createClient();
   const {
     data: { user },
@@ -16,6 +32,12 @@ export default async function HomePage() {
     .eq("id", user.id)
     .single();
 
+  // First visit: welcome banner + starter pack. Once opened, the server component re-renders
+  // (router.refresh) with the flag set and the normal home screen takes over.
+  if (profile && !profile.starter_pack_opened) {
+    return <StarterPackExperience username={profile.username} />;
+  }
+
   return (
     <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 p-6">
       <h1 className="text-4xl uppercase text-gold">Welcome, {profile?.username ?? "hustler"}</h1>
@@ -28,12 +50,15 @@ export default async function HomePage() {
           <Stat label="W / L" value={profile ? `${profile.wins} / ${profile.losses}` : undefined} />
         </dl>
       </PixelPanel>
+    </main>
+  );
+}
 
-      {profile && !profile.starter_pack_opened && (
-        <PixelPanel title="Starter pack">
-          <p className="text-steel">Your first three fighters are waiting. Pack opening arrives in the next step.</p>
-        </PixelPanel>
-      )}
+function HomeFallback() {
+  return (
+    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 p-6" aria-busy="true">
+      <div className="h-10 w-2/3 animate-pulse bg-panel" />
+      <div className="h-32 animate-pulse bg-panel" />
     </main>
   );
 }
