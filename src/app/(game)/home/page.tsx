@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { StarterPackExperience } from "@/components/pack/StarterPackExperience";
 import { PixelPanel } from "@/components/pixel/PixelPanel";
 import { createClient } from "@/lib/supabase/server";
+import { connection } from "next/server";
 
 /**
  * With `cacheComponents` on, anything that reads the request (cookies -> Supabase session)
@@ -19,6 +20,7 @@ export default function HomePage() {
 }
 
 async function HomeContent() {
+  await connection();
   const supabase = await createClient();
   const {
     data: { user },
