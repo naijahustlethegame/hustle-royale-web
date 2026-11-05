@@ -1,26 +1,82 @@
 @import "tailwindcss";
 
+/* Sweetie-16 inspired palette: warm, saturated, easy to read at low resolution. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ink: #1a1c2c;
+  --night: #29366f;
+  --panel: #333c57;
+  --mist: #566c86;
+  --steel: #94b0c2;
+  --paper: #f4f4f4;
+  --gold: #ffcd75;
+  --ember: #ef7d57;
+  --blood: #b13e53;
+  --leaf: #38b764;
+  --lime: #a7f070;
+  --sky: #41a6f6;
+  --ice: #73eff7;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ink: var(--ink);
+  --color-night: var(--night);
+  --color-panel: var(--panel);
+  --color-mist: var(--mist);
+  --color-steel: var(--steel);
+  --color-paper: var(--paper);
+  --color-gold: var(--gold);
+  --color-ember: var(--ember);
+  --color-blood: var(--blood);
+  --color-leaf: var(--leaf);
+  --color-lime: var(--lime);
+  --color-sky: var(--sky);
+  --color-ice: var(--ice);
+  --font-sans: var(--font-pixel);
+  --font-mono: var(--font-pixel);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-pixel), monospace;
+}
+
+/* Sprites and canvases must stay crisp when scaled up. */
+img,
+canvas,
+.pixelated {
+  image-rendering: pixelated;
+}
+
+/* NES-style stepped border: no radius, hard offset shadow. */
+.pixel-box {
+  position: relative;
+  border: 4px solid var(--paper);
+  box-shadow:
+    inset -4px -4px 0 0 rgb(0 0 0 / 0.35),
+    6px 6px 0 0 rgb(0 0 0 / 0.5);
+}
+
+.pixel-btn {
+  border: 4px solid var(--paper);
+  box-shadow: inset -4px -4px 0 0 rgb(0 0 0 / 0.35);
+  transition: transform 60ms steps(2);
+}
+.pixel-btn:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+.pixel-btn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+.pixel-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-btn {
+    transition: none;
+  }
 }
