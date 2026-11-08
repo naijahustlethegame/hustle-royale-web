@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
+import { HomeDashboard } from "@/components/home/HomeDashboard";
 import { StarterPackExperience } from "@/components/pack/StarterPackExperience";
-import { PixelPanel } from "@/components/pixel/PixelPanel";
 import { createClient } from "@/lib/supabase/server";
 import { connection } from "next/server";
 
@@ -41,18 +41,16 @@ async function HomeContent() {
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 p-6">
-      <h1 className="text-4xl uppercase text-gold">Welcome, {profile?.username ?? "hustler"}</h1>
-
-      <PixelPanel title="Your stats">
-        <dl className="grid grid-cols-2 gap-3 text-xl sm:grid-cols-4">
-          <Stat label="Level" value={profile?.level} />
-          <Stat label="Coins" value={profile?.coins} />
-          <Stat label="Rating" value={profile?.rating} />
-          <Stat label="W / L" value={profile ? `${profile.wins} / ${profile.losses}` : undefined} />
-        </dl>
-      </PixelPanel>
-    </main>
+    <HomeDashboard
+      profile={{
+        username: profile?.username ?? "hustler",
+        level: profile?.level ?? 1,
+        coins: profile?.coins ?? 0,
+        rating: profile?.rating ?? 0,
+        wins: profile?.wins ?? 0,
+        losses: profile?.losses ?? 0,
+      }}
+    />
   );
 }
 
@@ -62,14 +60,5 @@ function HomeFallback() {
       <div className="h-10 w-2/3 animate-pulse bg-panel" />
       <div className="h-32 animate-pulse bg-panel" />
     </main>
-  );
-}
-
-function Stat({ label, value }: { label: string; value: string | number | undefined }) {
-  return (
-    <div>
-      <dt className="text-steel">{label}</dt>
-      <dd className="text-2xl text-paper">{value ?? "-"}</dd>
-    </div>
   );
 }

@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { FighterSprite } from "@/components/sprites/FighterSprite";
 import type { Rarity, Role, StarterFighter } from "@/lib/starter-pack";
 
 const rarityStyle: Record<Rarity, { border: string; text: string; glow: string }> = {
@@ -30,13 +31,14 @@ export function FighterCard({ fighter, delayMs }: { fighter: StarterFighter; del
         <span className={r.text}>{t.rarity}</span>
       </div>
 
-      {/* Placeholder until sprite art ships: keyed by template.sprite_key. */}
       <div
-        className={clsx("pixelated flex aspect-square items-center justify-center border-4 bg-panel text-5xl text-paper", r.border)}
+        className={clsx("flex aspect-square items-end justify-center overflow-hidden border-4 bg-panel px-6 pt-4", r.border)}
         data-sprite={t.sprite_key}
         aria-hidden="true"
       >
-        {t.name.charAt(0)}
+        <div className="sprite-idle w-full">
+          <FighterSprite spriteKey={t.sprite_key} role={t.role} />
+        </div>
       </div>
 
       <div className="flex items-baseline justify-between gap-2">

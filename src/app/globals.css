@@ -153,3 +153,149 @@ canvas,
     animation-duration: 1ms;
   }
 }
+
+/* ---- Fighters and the match demo ---- */
+
+.sprite-idle {
+  animation: sprite-idle 1.1s steps(2) infinite;
+}
+@keyframes sprite-idle {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3%);
+  }
+}
+
+.pixel-bar {
+  border: 2px solid var(--paper);
+}
+
+.fx-lunge-r {
+  animation: lunge-r 520ms steps(8) both;
+}
+.fx-lunge-l {
+  animation: lunge-l 520ms steps(8) both;
+}
+@keyframes lunge-r {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  40% {
+    transform: translateX(45%) scale(1.08);
+  }
+}
+@keyframes lunge-l {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  40% {
+    transform: translateX(-45%) scale(1.08);
+  }
+}
+
+.fx-hurt {
+  animation: hurt 420ms steps(6) both;
+}
+@keyframes hurt {
+  0%,
+  100% {
+    transform: translateX(0);
+    filter: none;
+  }
+  20% {
+    transform: translateX(-8%);
+    filter: brightness(3);
+  }
+  40% {
+    transform: translateX(8%);
+    filter: brightness(2);
+  }
+  60% {
+    transform: translateX(-5%);
+  }
+  80% {
+    transform: translateX(4%);
+  }
+}
+
+.fx-heal {
+  animation: heal 700ms steps(7) both;
+}
+@keyframes heal {
+  0%,
+  100% {
+    filter: none;
+  }
+  30%,
+  70% {
+    filter: brightness(1.5) drop-shadow(0 0 6px var(--lime));
+  }
+}
+
+.fx-shield {
+  animation: shield 700ms steps(7) both;
+}
+@keyframes shield {
+  0%,
+  100% {
+    filter: none;
+  }
+  30%,
+  70% {
+    filter: brightness(1.4) drop-shadow(0 0 6px var(--ice));
+  }
+}
+
+.fx-dead {
+  transform: rotate(90deg) translateX(-10%);
+  transform-origin: bottom center;
+  filter: grayscale(1) brightness(0.6);
+  opacity: 0.55;
+  transition: all 300ms steps(3);
+}
+
+.float-text {
+  animation: float-up 1100ms steps(11) forwards;
+}
+@keyframes float-up {
+  0% {
+    opacity: 1;
+    margin-top: 0;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    margin-top: -32px;
+  }
+}
+
+.victory {
+  animation: victory 700ms steps(4) infinite alternate;
+}
+@keyframes victory {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sprite-idle,
+  .victory,
+  .fx-lunge-r,
+  .fx-lunge-l,
+  .fx-hurt,
+  .fx-heal,
+  .fx-shield {
+    animation: none;
+  }
+}

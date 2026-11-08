@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const PROTECTED = ["/home", "/team", "/training", "/market", "/arena", "/profile"];
+const PROTECTED = ["/home", "/team", "/training", "/market", "/arena", "/profile", "/leaderboard", "/how-to-play"];
 
 /** Refreshes the Supabase session cookie on every request and guards the game routes. */
 export async function updateSession(request: NextRequest) {
